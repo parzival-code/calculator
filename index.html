@@ -1,114 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Розрахунок вартості фігурки</title>
   <style>
     body {
-  font-family: 'Roboto', sans-serif;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #333;
-}
-h2 {
-  text-align: center;
-  color: #007BFF;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease;
-}
-input:focus {
-  border-color: #007BFF;
-  outline: none;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  font-size: 16px;
-  color: #fff;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-button:hover {
-  background-color: #0056b3;
-}
-.result {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f1f9ff;
-  border: 1px solid #d6e9ff;
-  border-radius: 8px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-.result p {
-  margin: 5px 0;
-  color: #333;
-}
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .note {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      background-color: #f1f9ff;
+      border: 1px solid #d6e9ff;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
   <h2>Калькулятор</h2>
   <label for="price">Ціна на сайті ($):</label>
   <input type="number" id="price" placeholder="Введіть ціну">
-
-  <label for="exchange-rate">Курс $ (mono):</label>
+  <label for="exchange-rate">Курсд оллару:</label>
   <input type="number" id="exchange-rate" placeholder="Введіть курс">
-
-  <div class="result">
-    <p>Податок (7%): <span id="tax">0</span> грн</p>
-    <p>Страховка від пошти (0.5%): <span id="insurance">0</span> грн</p>
-    <p>Сума без комісії (-40 грн): <span id="subtotal">0</span> грн</p>
-    <p>Загальна сума (з комісією): <span id="total">0</span> грн</p>
+  <div class="result" id="result">
+    <p>Податок 7% (грн): <span id="tax">0</span> грн</p>
+    <p>Страховка 0.5% (грн): <span id="insurance">0</span> грн</p>
+    <p>Загальна сума (грн): <span id="total">0</span> грн</p>
+    <p>Без врахування комісії (40 грн): <span id="subtotal">0</span> грн</p>
   </div>
-
+  <div class="note">
+    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. Вона буде розрахована після прибуття фігурок на склад. Середні значення за доставку фігурок, на основі попередніх замовлень: 
+    <ul>
+      <li>4-inch — 80-120 грн</li>
+      <li>6-inch/DELUXE — 150-250 грн</li>
+    </ul>
+  </div>
   <script>
-    // Отримання елементів
-    const priceInput = document.getElementById('price');
-    const exchangeRateInput = document.getElementById('exchange-rate');
-    const taxOutput = document.getElementById('tax');
-    const insuranceOutput = document.getElementById('insurance');
-    const subtotalOutput = document.getElementById('subtotal');
-    const totalOutput = document.getElementById('total');
+    const priceInput = document.getElementById("price");
+    const exchangeRateInput = document.getElementById("exchange-rate");
+    const taxOutput = document.getElementById("tax");
+    const insuranceOutput = document.getElementById("insurance");
+    const totalOutput = document.getElementById("total");
+    const subtotalOutput = document.getElementById("subtotal");
 
-    // Обробка змін
     function calculate() {
       const price = parseFloat(priceInput.value) || 0;
       const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
+      const tax = price * exchangeRate * 0.07;
+      const insurance = price * exchangeRate * 0.005;
+      const subtotal = price * exchangeRate + tax + insurance;
+      const total = subtotal + 40;
 
-      const tax = price * exchangeRate * 0.07; // Податок
-      const insurance = price * exchangeRate * 0.005; // Страховка
-      const subtotal = price * exchangeRate + tax + insurance; // Сума без комісії
-      const total = subtotal + 40; // Загальна сума
-
-      // Виведення результатів
       taxOutput.textContent = tax.toFixed(2);
       insuranceOutput.textContent = insurance.toFixed(2);
       subtotalOutput.textContent = subtotal.toFixed(2);
       totalOutput.textContent = total.toFixed(2);
     }
 
-    // Додавання обробників подій
-    priceInput.addEventListener('input', calculate);
-    exchangeRateInput.addEventListener('input', calculate);
+    priceInput.addEventListener("input", calculate);
+    exchangeRateInput.addEventListener("input", calculate);
   </script>
 </body>
 </html>
