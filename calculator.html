@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Калькулятор</h2>
+  <label for="price">Ціна на сайті (UAH):</label>
+  <input type="number" id="price" placeholder="Введіть ціну">
+
+  <label for="exchange-rate">Курс (UAH):</label>
+  <input type="number" id="exchange-rate" placeholder="Введіть курс">
+
+  <div class="result">
+    <p>Податок: <span id="tax">0</span> грн</p>
+    <p>Страховка: <span id="insurance">0</span> грн</p>
+    <p>Сума без комісії: <span id="subtotal">0</span> грн</p>
+    <p>Загальна сума (з комісією): <span id="total">0</span> грн</p>
+  </div>
+
+  <script>
+    // Отримання елементів
+    const priceInput = document.getElementById('price');
+    const exchangeRateInput = document.getElementById('exchange-rate');
+    const taxOutput = document.getElementById('tax');
+    const insuranceOutput = document.getElementById('insurance');
+    const subtotalOutput = document.getElementById('subtotal');
+    const totalOutput = document.getElementById('total');
+
+    // Обробка змін
+    function calculate() {
+      const price = parseFloat(priceInput.value) || 0;
+      const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
+
+      const tax = price * exchangeRate * 0.07; // Податок
+      const insurance = price * exchangeRate * 0.005; // Страховка
+      const subtotal = price * exchangeRate + tax + insurance; // Сума без комісії
+      const total = subtotal + 40; // Загальна сума
+
+      // Виведення результатів
+      taxOutput.textContent = tax.toFixed(2);
+      insuranceOutput.textContent = insurance.toFixed(2);
+      subtotalOutput.textContent = subtotal.toFixed(2);
+      totalOutput.textContent = total.toFixed(2);
+    }
+
+    // Додавання обробників подій
+    priceInput.addEventListener('input', calculate);
+    exchangeRateInput.addEventListener('input', calculate);
+  </script>
+</body>
+</html>
