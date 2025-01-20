@@ -29,9 +29,6 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .figure-block label {
-      margin-right: 5px;
-    }
     .figure-block input {
       width: 60px;
       padding: 8px;
@@ -73,16 +70,7 @@
   <h2>Розрахунок вартості фігурки</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
-  
-  <!-- Додано підпис перед першим полем ціни -->
-  <div class="figure-block">
-    <label for="price">Ціна:</label>
-    <input type="number" class="figure-price" placeholder="Введіть ціну">
-    <button class="add-price">+</button>
-  </div>
-
   <div class="figure-blocks-container" id="figures-container"></div>
-  
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
     <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
@@ -96,7 +84,6 @@
       <li>6-inch/DELUXE — 150-250 грн</li>
     </ul>
   </div>
-
   <script>
     const figuresContainer = document.getElementById("figures-container");
     const totalSumElement = document.getElementById("total-sum");
