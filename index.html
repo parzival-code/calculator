@@ -110,7 +110,7 @@
   <div class="figure-blocks-container" id="figures-container">
     <div class="figure-block">
       <label for="price-input">Ціна фігурки ($):</label>
-      <input type="number" id="price-input" class="figure-price" placeholder="Введіть ціну">
+      <input type="number" id="price-input" class="figure-price" placeholder="Введіть ціну" disabled>
       <button class="add-price">+</button>
     </div>
   </div>
@@ -160,12 +160,8 @@
 
       figureBlock.innerHTML = `
         <input type="number" class="figure-price" placeholder="Введіть ціну">
-        <button class="add-price">+</button>
         <button class="remove-price">-</button>
       `;
-
-      const addButton = figureBlock.querySelector(".add-price");
-      addButton.addEventListener("click", addPriceField);
 
       const removeButton = figureBlock.querySelector(".remove-price");
       removeButton.addEventListener("click", () => {
@@ -217,6 +213,10 @@
       fetchExchangeRate();
       addPriceField(); // Додаємо перше поле за замовчуванням
     };
+
+    // Додавання поля через плюс
+    const addButton = document.querySelector(".add-price");
+    addButton.addEventListener("click", addPriceField);
   </script>
 </body>
 </html>
