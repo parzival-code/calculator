@@ -53,6 +53,22 @@
     .figure-block button:hover {
       background-color: #e60000;
     }
+    .remove-price {
+      background-color: #ff0000;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 5px;
+    }
+    .remove-price:hover {
+      background-color: #cc0000;
+    }
     .total-sum {
       font-weight: bold;
       font-size: 16px;
@@ -145,10 +161,17 @@
       figureBlock.innerHTML = `
         <input type="number" class="figure-price" placeholder="Введіть ціну">
         <button class="add-price">+</button>
+        <button class="remove-price">-</button>
       `;
 
       const addButton = figureBlock.querySelector(".add-price");
       addButton.addEventListener("click", addPriceField);
+
+      const removeButton = figureBlock.querySelector(".remove-price");
+      removeButton.addEventListener("click", () => {
+        figureBlock.remove();
+        calculateTotal();
+      });
 
       const priceInput = figureBlock.querySelector(".figure-price");
       priceInput.addEventListener("input", calculateTotal);
