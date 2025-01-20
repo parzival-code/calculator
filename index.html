@@ -18,28 +18,21 @@
       text-align: center;
     }
     .figure-block {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      background-color: #fff;
-    }
-    .figure-block label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
     }
     .figure-block input {
-      width: 100%;
+      width: 60px;
       padding: 8px;
-      margin-bottom: 10px;
+      margin-right: 5px;
       font-size: 14px;
     }
     .figure-block button {
       background-color: #ff4d4d;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 8px;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -66,7 +59,6 @@
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
   <div id="figures-container"></div>
-  <button id="add-figure">Додати фігурку</button>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="note">
     <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
@@ -77,7 +69,6 @@
   </div>
   <script>
     const figuresContainer = document.getElementById("figures-container");
-    const addFigureButton = document.getElementById("add-figure");
     const totalSumElement = document.getElementById("total-sum");
     const exchangeRateInput = document.getElementById("exchange-rate");
 
@@ -99,75 +90,54 @@
       }
     }
 
-    // Додавання блоку фігурки
-    function addFigureBlock() {
+    // Додавання маленького поля для ціни
+    function addPriceField() {
       const figureBlock = document.createElement("div");
       figureBlock.className = "figure-block";
 
       figureBlock.innerHTML = `
-        <label>Ціна фігурки ($):</label>
         <input type="number" class="figure-price" placeholder="Введіть ціну">
-        <p>Податок (7%): <span class="tax">0</span> грн</p>
-        <p>Страховка (0.5%): <span class="insurance">0</span> грн</p>
-        <p>Сума без комісії: <span class="subtotal">0</span> грн</p>
-        <p>Загальна сума: <span class="total">0</span> грн</p>
-        <button class="delete-figure">Видалити</button>
+        <button class="add-price">+</button>
       `;
 
-      const deleteButton = figureBlock.querySelector(".delete-figure");
-      deleteButton.addEventListener("click", () => {
-        figureBlock.remove();
-        calculateTotal();
-      });
+      const addButton = figureBlock.querySelector(".add-price");
+      addButton.addEventListener("click", addPriceField);
 
       const priceInput = figureBlock.querySelector(".figure-price");
-      priceInput.addEventListener("input", () => calculateFigure(figureBlock));
+      priceInput.addEventListener("input", calculateTotal);
 
       figuresContainer.appendChild(figureBlock);
-      calculateFigure(figureBlock);
-    }
-
-    // Розрахунок для однієї фігурки
-    function calculateFigure(figureBlock) {
-      const priceInput = figureBlock.querySelector(".figure-price");
-      const taxOutput = figureBlock.querySelector(".tax");
-      const insuranceOutput = figureBlock.querySelector(".insurance");
-      const subtotalOutput = figureBlock.querySelector(".subtotal");
-      const totalOutput = figureBlock.querySelector(".total");
-
-      const price = parseFloat(priceInput.value) || 0;
-      const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
-
-      const tax = price * exchangeRate * 0.07;
-      const insurance = price * exchangeRate * 0.005;
-      const subtotal = price * exchangeRate + tax + insurance;
-      const total = subtotal + 40;
-
-      taxOutput.textContent = tax.toFixed(2);
-      insuranceOutput.textContent = insurance.toFixed(2);
-      subtotalOutput.textContent = subtotal.toFixed(2);
-      totalOutput.textContent = total.toFixed(2);
-
-      calculateTotal();
     }
 
     // Загальний розрахунок для всіх фігурок
     function calculateTotal() {
-      const totals = document.querySelectorAll(".figure-block .total");
+      const priceInputs = document.querySelectorAll(".figure-price");
       let totalSum = 0;
+      let taxSum = 0;
+      let insuranceSum = 0;
 
-      totals.forEach(total => {
-        totalSum += parseFloat(total.textContent) || 0;
+      priceInputs.forEach(input => {
+        const price = parseFloat(input.value) || 0;
+        const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
+
+        const tax = price * exchangeRate * 0.07;
+        const insurance = price * exchangeRate * 0.005;
+        const subtotal = price * exchangeRate + tax + insurance;
+        const total = subtotal + 40;
+
+        taxSum += tax;
+        insuranceSum += insurance;
+        totalSum += total;
       });
 
+      // Оновлення загальної суми
       totalSumElement.textContent = totalSum.toFixed(2);
     }
 
     // Ініціалізація
-    addFigureButton.addEventListener("click", addFigureBlock);
     window.onload = () => {
       fetchExchangeRate();
-      addFigureBlock(); // Додаємо перший блок за замовчуванням
+      addPriceField(); // Додаємо перше поле за замовчуванням
     };
   </script>
 </body>
