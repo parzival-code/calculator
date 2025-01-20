@@ -6,115 +6,173 @@
   <title>Розрахунок вартості фігурки</title>
   <style>
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
       max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #333333;
-      font-size: 24px;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
-      color: #555555;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 15px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #cccccc;
-      box-sizing: border-box;
-    }
-    input:disabled {
-      background-color: #f5f5f5;
-    }
-    button {
-      background-color: #007bff;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .result {
-      margin-top: 20px;
-      font-weight: bold;
-      text-align: center;
-      font-size: 18px;
-      color: #333333;
-    }
-    .note {
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 14px;
-      line-height: 1.5;
-      background-color: #f8f9fa;
-      border-left: 5px solid #007bff;
+      margin: 0 auto;
+      border: 1px solid #ddd;
       border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
     }
     .figure-container {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #e0e0e0;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      background-color: #f9f9f9;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      padding: 15px;
     }
     .figure-container label {
-      font-size: 14px;
-      color: #555555;
+      display: block;
+      margin-bottom: 5px;
     }
-    .figure-container p {
-      margin: 5px 0;
-      font-size: 14px;
+    .figure-container input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
-    .remove-btn {
-      background-color: #dc3545;
-      color: #ffffff;
+    .figure-container button {
+      background-color: #ff4d4f;
+      color: white;
       border: none;
-      padding: 8px 15px;
-      font-size: 14px;
-      border-radius: 5px;
+      padding: 8px 12px;
+      border-radius: 4px;
       cursor: pointer;
     }
-    .remove-btn:hover {
-      background-color: #b02a37;
+    .figure-container button:hover {
+      background-color: #e04344;
     }
-    #add-figure-btn {
-      margin-top: 10px;
+    .add-button {
+      display: block;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .add-button:hover {
+      background-color: #0056b3;
+    }
+    .note {
+      background-color: #f9f9f9;
+      border-left: 4px solid #007bff;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 4px;
+    }
+    .note p {
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <h2>Розрахунок вартості фігурки</h2>
-  <label for="exchange-rate">Актуальний курс (mono):</label>
-  <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
+  <div class="container">
+    <h1>Розрахунок вартості фігурки</h1>
 
-  <div id="figures-container"></div>
-  <button id="add-figure-btn">Додати фігурку</button>
+    <label>Актуальний курс (mono):</label>
+    <input type="text" id="exchange-rate" placeholder="Курс завантажується..." disabled>
 
-  <div class="result">
-    <p>Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
+    <button id="add-figure-btn" class="add-button">Додати фігурку</button>
+
+    <div id="figures-container"></div>
+
+    <h2>Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</h2>
+
+    <div class="note">
+      <p><strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. Вона буде розрахована після прибуття фігурок на склад. Середні значення за доставку фігурок, на основі попередніх замовлень:</p>
+      <ul>
+        <li>4-inch — 80-120 грн</li>
+        <li>6-inch/DELUXE — 150-250 грн</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="note">
-    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. Вона буде розрахована після прибуття фігурок на склад. Середні значення за доставку фігурок, на основі попередніх замовлень: 
-    <ul>
-      <li>4-inch — 80-120 грн</li>
-      <li>6-inch/DELUXE — 150-250 грн</li>
-    </ul>
-  </div>
+  <script>
+    // Завантаження курсу
+    const exchangeRateInput = document.getElementById('exchange-rate');
+    const figuresContainer = document.getElementById('figures-container');
+    const addFigureBtn = document.getElementById('add-figure-btn');
+    const totalSumElement = document.getElementById('total-sum');
+
+    let totalSum = 0;
+
+    // Симуляція завантаження курсу
+    setTimeout(() => {
+      exchangeRateInput.value = 42.6; // Замініть на API запит
+      exchangeRateInput.disabled = false;
+    }, 1000);
+
+    // Функція для створення блоку фігурки
+    function createFigureBlock() {
+      const figureDiv = document.createElement('div');
+      figureDiv.className = 'figure-container';
+
+      figureDiv.innerHTML = `
+        <label>Ціна фігурки ($):</label>
+        <input type="number" class="figure-price" placeholder="Введіть ціну">
+        <p>Податок (7%): <span class="tax-amount">0</span> грн</p>
+        <p>Страховка (0.5%): <span class="insurance-amount">0</span> грн</p>
+        <p>Сума без комісії: <span class="net-sum">0</span> грн</p>
+        <p>Загальна сума: <span class="total-sum">0</span> грн</p>
+        <button class="remove-btn">Видалити</button>
+      `;
+
+      // Додавання функціоналу для розрахунків
+      const priceInput = figureDiv.querySelector('.figure-price');
+      const taxAmount = figureDiv.querySelector('.tax-amount');
+      const insuranceAmount = figureDiv.querySelector('.insurance-amount');
+      const netSum = figureDiv.querySelector('.net-sum');
+      const totalSumElement = figureDiv.querySelector('.total-sum');
+      const removeBtn = figureDiv.querySelector('.remove-btn');
+
+      priceInput.addEventListener('input', () => {
+        const price = parseFloat(priceInput.value) || 0;
+        const tax = price * 0.07;
+        const insurance = price * 0.005;
+        const net = (price + tax + insurance) * parseFloat(exchangeRateInput.value || 1);
+
+        taxAmount.textContent = (tax * parseFloat(exchangeRateInput.value || 1)).toFixed(2);
+        insuranceAmount.textContent = (insurance * parseFloat(exchangeRateInput.value || 1)).toFixed(2);
+        netSum.textContent = (price * parseFloat(exchangeRateInput.value || 1)).toFixed(2);
+        totalSumElement.textContent = net.toFixed(2);
+
+        updateTotalSum();
+      });
+
+      // Видалення блоку фігурки
+      removeBtn.addEventListener('click', () => {
+        figuresContainer.removeChild(figureDiv);
+        updateTotalSum();
+      });
+
+      figuresContainer.appendChild(figureDiv);
+    }
+
+    // Оновлення загальної суми
+    function updateTotalSum() {
+      totalSum = 0;
+      const totalSumElements = figuresContainer.querySelectorAll('.total-sum');
+      totalSumElements.forEach((sumElement) => {
+        totalSum += parseFloat(sumElement.textContent) || 0;
+      });
+      totalSumElement.textContent = totalSum.toFixed(2);
+    }
+
+    // Додавання першої фігурки за замовчуванням
+    createFigureBlock();
+
+    // Додавання нових фігурок
+    addFigureBtn.addEventListener('click', createFigureBlock);
+  </script>
 </body>
 </html>
