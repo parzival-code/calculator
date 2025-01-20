@@ -27,6 +27,9 @@
       font-size: 18px;
       text-align: center; /* Відцентровуємо текст по горизонталі */
     }
+    .exchange-rate-container {
+      text-align: center; /* Вирівнюємо по центру */
+    }
     .figure-blocks-container {
       display: flex;
       flex-wrap: wrap;
@@ -103,7 +106,9 @@
 <body>
   <h2>Розрахунок вартості фігурки</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
-  <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
+  <div class="exchange-rate-container">
+    <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
+  </div>
   <div class="figure-blocks-container" id="figures-container"></div>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
