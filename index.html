@@ -29,6 +29,15 @@
     }
     .exchange-rate-container {
       text-align: center; /* Вирівнюємо по центру */
+      margin-bottom: 20px; /* Відступ між курсом і ціною */
+    }
+    #exchange-rate {
+      width: 100px; /* Менший розмір для поля з курсом */
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f1f9ff; /* Легке виділення */
     }
     .figure-blocks-container {
       display: flex;
@@ -109,6 +118,8 @@
   <div class="exchange-rate-container">
     <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
   </div>
+  
+  <label for="price">Ціна на сайті:</label>
   <div class="figure-blocks-container" id="figures-container"></div>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
