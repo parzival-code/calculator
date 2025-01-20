@@ -111,6 +111,7 @@
         <input type="number" class="figure-price" placeholder="Введіть ціну">
         <p>Податок (7%): <span class="figure-tax">0</span> грн</p>
         <p>Страховка (0.5%): <span class="figure-insurance">0</span> грн</p>
+        <p>Сума без комісії: <span class="figure-subtotal">0</span> грн</p>
         <p>Загальна сума: <span class="figure-total">0</span> грн</p>
         <button class="remove-btn">Видалити</button>
       `;
@@ -120,6 +121,7 @@
       const priceInput = figureDiv.querySelector(".figure-price");
       const taxOutput = figureDiv.querySelector(".figure-tax");
       const insuranceOutput = figureDiv.querySelector(".figure-insurance");
+      const subtotalOutput = figureDiv.querySelector(".figure-subtotal");
       const totalOutput = figureDiv.querySelector(".figure-total");
       const removeBtn = figureDiv.querySelector(".remove-btn");
 
@@ -129,10 +131,12 @@
 
         const tax = price * exchangeRate * 0.07;
         const insurance = price * exchangeRate * 0.005;
-        const total = price * exchangeRate + tax + insurance;
+        const subtotal = price * exchangeRate + tax + insurance;
+        const total = subtotal + 40;
 
         taxOutput.textContent = tax.toFixed(2);
         insuranceOutput.textContent = insurance.toFixed(2);
+        subtotalOutput.textContent = subtotal.toFixed(2);
         totalOutput.textContent = total.toFixed(2);
 
         calculateTotalSum();
@@ -160,7 +164,10 @@
     addFigureBtn.addEventListener("click", addFigure);
 
     // Завантаження курсу при відкритті сторінки
-    window.onload = fetchExchangeRate;
+    window.onload = () => {
+      fetchExchangeRate();
+      addFigure(); // Додаємо поле для першої фігурки
+    };
   </script>
 </body>
 </html>
