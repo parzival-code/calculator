@@ -4,118 +4,110 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Розрахунок вартості фігурки</title>
-  <link rel="icon" href="logo.png"> <!-- Змінити на шлях до вашого логотипу -->
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-    }
-    .container {
-      max-width: 600px;
-      margin: 30px auto;
+      max-width: 400px;
+      margin: 20px auto;
       padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
     }
-    h1 {
+    h2 {
       text-align: center;
-      color: #333;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
     }
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      margin: 10px 0;
       font-size: 16px;
     }
     .result {
-      font-size: 18px;
-      margin-bottom: 10px;
+      margin-top: 20px;
+      font-weight: bold;
     }
     .note {
-      background-color: #e9f7fd;
-      padding: 15px;
-      border-left: 5px solid #2196f3;
       margin-top: 20px;
-      border-radius: 4px;
-    }
-    .note p {
-      margin: 5px 0;
+      padding: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      background-color: #f1f9ff;
+      border: 1px solid #d6e9ff;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Розрахунок вартості фігурки</h1>
-    <label for="price">Ціна на сайті ($):</label>
-    <input type="number" id="price" placeholder="Введіть ціну">
-    <label for="rate">Актуальний курс (mono):</label>
-    <input type="text" id="rate" readonly>
-
-    <div class="result">Податок (7%): <span id="tax">0.00 грн</span></div>
-    <div class="result">Страховка (0.5%): <span id="insurance">0.00 грн</span></div>
-    <div class="result">Загальна сума: <span id="total">0.00 грн</span></div>
-    <div class="result">Сума без комісії: <span id="subtotal">0.00 грн</span></div>
-
-    <div class="note">
-      <strong>Примітка:</strong>
-      <p>Загальна сума вказана без врахування доставки з США в Україну. Вона буде розрахована після прибуття фігурок на склад. Середні значення за доставку фігурок, на основі попередніх замовлень:</p>
-      <ul>
-        <li>4-inch — 80-120 грн</li>
-        <li>6-inch/DELUXE — 150-250 грн</li>
-      </ul>
-    </div>
+  <h2>Розрахунок вартості фігурки</h2>
+  <label for="price">Ціна на сайті ($):</label>
+  <input type="number" id="price" placeholder="Введіть ціну">
+  <label for="exchange-rate">Актуальний курс (mono):</label>
+  <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
+  <div class="result" id="result">
+    <p>Податок (7%): <span id="tax">0</span> грн</p>
+    <p>Страховка (0.5%): <span id="insurance">0</span> грн</p>
+    <p>Загальна сума: <span id="total">0</span> грн</p>
+    <p>Сума без комісії: <span id="subtotal">0</span> грн</p>
   </div>
-
+  <div class="note">
+    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. Вона буде розрахована після прибуття фігурок на склад. Середні значення за доставку фігурок, на основі попередніх замовлень: 
+    <ul>
+      <li>4-inch — 80-120 грн</li>
+      <li>6-inch/DELUXE — 150-250 грн</li>
+    </ul>
+  </div>
   <script>
     const priceInput = document.getElementById("price");
-    const rateInput = document.getElementById("rate");
-    const taxSpan = document.getElementById("tax");
-    const insuranceSpan = document.getElementById("insurance");
-    const totalSpan = document.getElementById("total");
-    const subtotalSpan = document.getElementById("subtotal");
+    const exchangeRateInput = document.getElementById("exchange-rate");
+    const taxOutput = document.getElementById("tax");
+    const insuranceOutput = document.getElementById("insurance");
+    const totalOutput = document.getElementById("total");
+    const subtotalOutput = document.getElementById("subtotal");
 
-    // Отримання курсу з API monobank
-    async function fetchRate() {
-      const response = await fetch("https://api.monobank.ua/bank/currency");
-      const data = await response.json();
-      const usdRate = data.find(currency => currency.currencyCodeA === 840 && currency.currencyCodeB === 980);
-      if (usdRate) {
-        rateInput.value = usdRate.rateSell.toFixed(2);
-      } else {
-        rateInput.value = "Курс недоступний";
+    // Функція для автоматичного отримання курсу з API Monobank для продажу
+    async function fetchExchangeRate() {
+      try {
+        // API Monobank для отримання курсів валют
+        const response = await fetch("https://api.monobank.ua/bank/currency");
+        const data = await response.json();
+
+        // Знайдемо курс USD/UAH для продажу (rateSell)
+        const usdRate = data.find(rate => rate.currencyCodeA === 840 && rate.currencyCodeB === 980);
+        
+        // Якщо курс знайдений, вивести його в поле
+        if (usdRate) {
+          exchangeRateInput.value = (usdRate.rateSell).toFixed(2); // Використовуємо rateSell
+          calculate(); // Перерахувати результати
+        } else {
+          throw new Error("Не вдалося знайти курс USD/UAH.");
+        }
+      } catch (error) {
+        console.error("Помилка при отриманні курсу:", error);
+        exchangeRateInput.placeholder = "Не вдалося завантажити курс";
       }
     }
 
-    // Оновлення розрахунків
-    function updateCalculations() {
+    // Функція для розрахунків
+    function calculate() {
       const price = parseFloat(priceInput.value) || 0;
-      const rate = parseFloat(rateInput.value) || 0;
-      const tax = price * rate * 0.07;
-      const insurance = price * rate * 0.005;
-      const subtotal = price * rate;
-      const total = subtotal + tax + insurance + 40;
+      const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
+      const tax = price * exchangeRate * 0.07;
+      const insurance = price * exchangeRate * 0.005;
+      const subtotal = price * exchangeRate + tax + insurance;
+      const total = subtotal + 40;
 
-      taxSpan.textContent = `${tax.toFixed(2)} грн`;
-      insuranceSpan.textContent = `${insurance.toFixed(2)} грн`;
-      subtotalSpan.textContent = `${subtotal.toFixed(2)} грн`;
-      totalSpan.textContent = `${total.toFixed(2)} грн`;
+      taxOutput.textContent = tax.toFixed(2);
+      insuranceOutput.textContent = insurance.toFixed(2);
+      subtotalOutput.textContent = subtotal.toFixed(2);
+      totalOutput.textContent = total.toFixed(2);
     }
 
-    // Автоматичне оновлення при введенні ціни
-    priceInput.addEventListener("input", updateCalculations);
+    // Слухачі подій
+    priceInput.addEventListener("input", calculate);
 
-    // Завантаження курсу та розрахунок при завантаженні сторінки
-    fetchRate().then(updateCalculations);
+    // Завантаження курсу при відкритті сторінки
+    window.onload = fetchExchangeRate;
   </script>
 </body>
 </html>
