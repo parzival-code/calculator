@@ -168,15 +168,18 @@
         const price = parseFloat(input.value) || 0;
         const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
 
-        const tax = price * exchangeRate * 0.07;
-        const insurance = price * exchangeRate * 0.005;
-        const subtotal = price * exchangeRate + tax + insurance;
-        const total = subtotal + 40;
+        // Якщо ціна не введена, то не враховуємо це поле
+        if (price > 0) {
+          const tax = price * exchangeRate * 0.07;
+          const insurance = price * exchangeRate * 0.005;
+          const subtotal = price * exchangeRate + tax + insurance;
+          const total = subtotal + 40;
 
-        taxSum += tax;
-        insuranceSum += insurance;
-        subtotalSum += subtotal;
-        totalSum += total;
+          taxSum += tax;
+          insuranceSum += insurance;
+          subtotalSum += subtotal;
+          totalSum += total;
+        }
       });
 
       // Оновлення загальних значень
