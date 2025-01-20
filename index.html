@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Розрахунок вартості фігурки</title>
+  <title>Розрахунок спільного замовлення</title>
   <link rel="icon" href="logo.png" type="image/png"> <!-- Додаємо іконку сторінки -->
   <style>
     body {
@@ -113,26 +113,22 @@
   </style>
 </head>
 <body>
-  <h2>Розрахунок вартості фігурки</h2>
+  <h2>Розрахунок вартості спільного замовлення</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <div class="exchange-rate-container">
     <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
   </div>
   
-  <label for="price">Ціна на сайті:</label>
+  <label for="price">Ціна на сайті($):</label>
   <div class="figure-blocks-container" id="figures-container"></div>
-  <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
+  <p class="total-sum">Загальна сума для всіх фігурок без доставки: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
     <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
     <p>Страховка (0.5%): <span id="insurance-sum">0</span> грн</p>
     <p>Сума без комісії: <span id="subtotal-sum">0</span> грн</p>
   </div>
   <div class="note">
-    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
-    <ul>
-      <li>4-inch — 80-120 грн</li>
-      <li>6-inch/DELUXE — 150-250 грн</li>
-    </ul>
+    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну.  
   </div>
   <script>
     const figuresContainer = document.getElementById("figures-container");
