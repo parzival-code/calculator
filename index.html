@@ -28,19 +28,12 @@
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      flex-wrap: wrap;
     }
     .figure-block input {
       width: 60px;
       padding: 8px;
       margin-right: 5px;
       font-size: 14px;
-    }
-    .figure-block label {
-      margin-right: 10px;
-      font-weight: bold;
-      font-size: 14px;
-      flex-basis: 100%;
     }
     .figure-block button {
       background-color: #ff4d4d;
@@ -52,22 +45,6 @@
     }
     .figure-block button:hover {
       background-color: #e60000;
-    }
-    .remove-price {
-      background-color: #ff0000;
-      color: white;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      font-size: 16px;
-      margin-left: 5px;
-    }
-    .remove-price:hover {
-      background-color: #cc0000;
     }
     .total-sum {
       font-weight: bold;
@@ -87,33 +64,13 @@
       font-size: 14px;
       text-align: center;
     }
-    /* Адаптивність для мобільних пристроїв */
-    @media (max-width: 600px) {
-      .figure-block {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .figure-block input {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-      .figure-block button {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
   <h2>Розрахунок вартості фігурки</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
-  <div class="figure-blocks-container" id="figures-container">
-    <div class="figure-block" id="price-field">
-      <label for="price-input">Ціна фігурки ($):</label>
-      <input type="number" id="price-input" class="figure-price" placeholder="Введіть ціну">
-    </div>
-  </div>
-  <button class="add-price">+</button>
+  <div class="figure-blocks-container" id="figures-container"></div>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
     <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
@@ -134,7 +91,6 @@
     const insuranceSumElement = document.getElementById("insurance-sum");
     const subtotalSumElement = document.getElementById("subtotal-sum");
     const exchangeRateInput = document.getElementById("exchange-rate");
-    const addPriceButton = document.querySelector(".add-price");
 
     // Отримання курсу з API Monobank
     async function fetchExchangeRate() {
@@ -161,14 +117,11 @@
 
       figureBlock.innerHTML = `
         <input type="number" class="figure-price" placeholder="Введіть ціну">
-        <button class="remove-price">-</button>
+        <button class="add-price">+</button>
       `;
 
-      const removeButton = figureBlock.querySelector(".remove-price");
-      removeButton.addEventListener("click", () => {
-        figureBlock.remove();
-        calculateTotal();
-      });
+      const addButton = figureBlock.querySelector(".add-price");
+      addButton.addEventListener("click", addPriceField);
 
       const priceInput = figureBlock.querySelector(".figure-price");
       priceInput.addEventListener("input", calculateTotal);
@@ -188,18 +141,15 @@
         const price = parseFloat(input.value) || 0;
         const exchangeRate = parseFloat(exchangeRateInput.value) || 0;
 
-        // Якщо ціна не введена, то не враховуємо це поле
-        if (price > 0) {
-          const tax = price * exchangeRate * 0.07;
-          const insurance = price * exchangeRate * 0.005;
-          const subtotal = price * exchangeRate + tax + insurance;
-          const total = subtotal + 40;
+        const tax = price * exchangeRate * 0.07;
+        const insurance = price * exchangeRate * 0.005;
+        const subtotal = price * exchangeRate + tax + insurance;
+        const total = subtotal + 40;
 
-          taxSum += tax;
-          insuranceSum += insurance;
-          subtotalSum += subtotal;
-          totalSum += total;
-        }
+        taxSum += tax;
+        insuranceSum += insurance;
+        subtotalSum += subtotal;
+        totalSum += total;
       });
 
       // Оновлення загальних значень
@@ -210,8 +160,10 @@
     }
 
     // Ініціалізація
-    addPriceButton.addEventListener("click", addPriceField);
-    window.onload = fetchExchangeRate;
+    window.onload = () => {
+      fetchExchangeRate();
+      addPriceField(); // Додаємо перше поле за замовчуванням
+    };
   </script>
 </body>
 </html>
