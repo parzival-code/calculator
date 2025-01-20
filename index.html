@@ -28,12 +28,19 @@
       display: flex;
       align-items: center;
       margin-bottom: 10px;
+      flex-wrap: wrap;
     }
     .figure-block input {
       width: 60px;
       padding: 8px;
       margin-right: 5px;
       font-size: 14px;
+    }
+    .figure-block label {
+      margin-right: 10px;
+      font-weight: bold;
+      font-size: 14px;
+      flex-basis: 100%;
     }
     .figure-block button {
       background-color: #ff4d4d;
@@ -64,13 +71,33 @@
       font-size: 14px;
       text-align: center;
     }
+    /* Адаптивність для мобільних пристроїв */
+    @media (max-width: 600px) {
+      .figure-block {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .figure-block input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .figure-block button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <h2>Розрахунок вартості фігурки</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
-  <div class="figure-blocks-container" id="figures-container"></div>
+  <div class="figure-blocks-container" id="figures-container">
+    <div class="figure-block">
+      <label for="price-input">Ціна фігурки ($):</label>
+      <input type="number" id="price-input" class="figure-price" placeholder="Введіть ціну">
+      <button class="add-price">+</button>
+    </div>
+  </div>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
   <div class="aggregated-data">
     <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
