@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Розрахунок вартості фігурки</title>
+  <link rel="icon" href="logo.png" type="image/png"> <!-- Додаємо іконку сторінки -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,6 +17,12 @@
     }
     h2 {
       text-align: center;
+    }
+    .figure-blocks-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-start;
     }
     .figure-block {
       display: flex;
@@ -52,14 +59,24 @@
       padding: 10px;
       border-radius: 8px;
     }
+    .aggregated-data {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <h2>Розрахунок вартості фігурки</h2>
   <label for="exchange-rate">Актуальний курс (mono):</label>
   <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
-  <div id="figures-container"></div>
+  <div class="figure-blocks-container" id="figures-container"></div>
   <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
+  <div class="aggregated-data">
+    <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
+    <p>Страховка (0.5%): <span id="insurance-sum">0</span> грн</p>
+    <p>Сума без комісії: <span id="subtotal-sum">0</span> грн</p>
+  </div>
   <div class="note">
     <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
     <ul>
@@ -70,6 +87,9 @@
   <script>
     const figuresContainer = document.getElementById("figures-container");
     const totalSumElement = document.getElementById("total-sum");
+    const taxSumElement = document.getElementById("tax-sum");
+    const insuranceSumElement = document.getElementById("insurance-sum");
+    const subtotalSumElement = document.getElementById("subtotal-sum");
     const exchangeRateInput = document.getElementById("exchange-rate");
 
     // Отримання курсу з API Monobank
@@ -115,6 +135,7 @@
       let totalSum = 0;
       let taxSum = 0;
       let insuranceSum = 0;
+      let subtotalSum = 0;
 
       priceInputs.forEach(input => {
         const price = parseFloat(input.value) || 0;
@@ -127,11 +148,15 @@
 
         taxSum += tax;
         insuranceSum += insurance;
+        subtotalSum += subtotal;
         totalSum += total;
       });
 
-      // Оновлення загальної суми
+      // Оновлення загальних значень
       totalSumElement.textContent = totalSum.toFixed(2);
+      taxSumElement.textContent = taxSum.toFixed(2);
+      insuranceSumElement.textContent = insuranceSum.toFixed(2);
+      subtotalSumElement.textContent = subtotalSum.toFixed(2);
     }
 
     // Ініціалізація
