@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
@@ -14,8 +14,8 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: rgba(255, 255, 255, 0.8); /* Напівпрозорий фон */
-      backdrop-filter: blur(5px); /* Ефект розмиття */
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
     }
     .container {
       max-width: 600px;
@@ -23,8 +23,8 @@
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.8); /* Напівпрозорий фон */
-      backdrop-filter: blur(5px); /* Ефект розмиття */
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
       z-index: 1;
     }
     .background {
@@ -60,13 +60,13 @@
       font-size: 18px;
       text-align: center;
     }
-    label[for="price"] {
-      margin-bottom: 10px; /* Відступ після тексту "Ціна на сайті" */
-      display: block;
-    }
     .exchange-rate-container {
       text-align: center;
       margin-bottom: 20px;
+    }
+    .exchange-rate-container label {
+      display: block;
+      margin-bottom: 5px;
     }
     #exchange-rate {
       width: auto;
@@ -88,14 +88,12 @@
     .figure-block {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
-      width: calc(50% - 5px);
-      box-sizing: border-box;
+      margin-bottom: 0; /* Прибрано великий відступ */
+      gap: 5px;
     }
     .figure-block input {
-      width: 120px; /* Встановлено ширину поля */
+      width: 120px;
       padding: 8px;
-      margin-right: 5px;
       font-size: 14px;
       border-radius: 5px;
       border: 1px solid #ccc;
@@ -118,6 +116,11 @@
       text-align: center;
       margin-top: 20px;
     }
+    .aggregated-data {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+    }
     .note {
       font-size: 14px;
       background-color: #f1f9ff;
@@ -125,11 +128,6 @@
       padding: 10px;
       border-radius: 8px;
       margin-top: 20px;
-    }
-    .aggregated-data {
-      margin-top: 20px;
-      font-size: 14px;
-      text-align: center;
     }
     @media (max-width: 480px) {
       body {
@@ -158,8 +156,8 @@
       <img src="logo2.png" alt="Логотип" class="logo">
       <h2>Розрахунок вартості фігурки</h2>
     </div>
-    <label for="exchange-rate">Актуальний курс (mono):</label>
     <div class="exchange-rate-container">
+      <label for="exchange-rate">Актуальний курс (mono):</label>
       <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
     </div>
     <label for="price">Ціна на сайті:</label>
