@@ -8,13 +8,24 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.8); /* Напівпрозорий фон */
+      backdrop-filter: blur(5px); /* Ефект розмиття */
+    }
+    .container {
       max-width: 600px;
-      margin: 20px auto;
+      width: 100%;
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 10px;
       background-color: rgba(255, 255, 255, 0.8); /* Напівпрозорий фон */
       backdrop-filter: blur(5px); /* Ефект розмиття */
+      z-index: 1;
     }
     .background {
       background-image: url('background.png');
@@ -137,29 +148,32 @@
 </head>
 <body>
   <div class="background"></div>
-  <div class="header">
-    <img src="logo2.png" alt="Логотип" class="logo">
-    <h2>Розрахунок вартості фігурки</h2>
+  <div class="container">
+    <div class="header">
+      <img src="logo2.png" alt="Логотип" class="logo">
+      <h2>Розрахунок вартості фігурки</h2>
+    </div>
+    <label for="exchange-rate">Актуальний курс (mono):</label>
+    <div class="exchange-rate-container">
+      <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
+    </div>
+    <label for="price">Ціна на сайті:</label>
+    <div class="figure-blocks-container" id="figures-container"></div>
+    <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
+    <div class="aggregated-data">
+      <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
+      <p>Страховка (0.5%): <span id="insurance-sum">0</span> грн</p>
+      <p>Сума без комісії: <span id="subtotal-sum">0</span> грн</p>
+    </div>
+    <div class="note">
+      <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
+      <ul>
+        <li>4-inch — 80-120 грн</li>
+        <li>6-inch/DELUXE — 150-250 грн</li>
+      </ul>
+    </div>
   </div>
-  <label for="exchange-rate">Актуальний курс (mono):</label>
-  <div class="exchange-rate-container">
-    <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
-  </div>
-  <label for="price">Ціна на сайті:</label>
-  <div class="figure-blocks-container" id="figures-container"></div>
-  <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
-  <div class="aggregated-data">
-    <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
-    <p>Страховка (0.5%): <span id="insurance-sum">0</span> грн</p>
-    <p>Сума без комісії: <span id="subtotal-sum">0</span> грн</p>
-  </div>
-  <div class="note">
-    <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
-    <ul>
-      <li>4-inch — 80-120 грн</li>
-      <li>6-inch/DELUXE — 150-250 грн</li>
-    </ul>
-  </div>
+
   <script>
     const figuresContainer = document.getElementById("figures-container");
     const totalSumElement = document.getElementById("total-sum");
