@@ -62,8 +62,8 @@
       font-size: 18px;
       text-align: center;
     }
-    /* Додаємо відступ після тексту "Ціна на сайті:" */
-    label[for="price"] {
+    /* Додаємо відступ після тексту "Актуальний курс" */
+    label[for="exchange-rate"] {
       margin-bottom: 10px; /* Відступ після тексту */
     }
     .exchange-rate-container {
@@ -71,12 +71,15 @@
       margin-bottom: 20px;
     }
     #exchange-rate {
-      width: 100px;
+      width: auto; /* Ширина по розміру значення */
       padding: 8px;
       font-size: 16px;
+      font-weight: bold; /* Трішки жирніший шрифт */
       border: 1px solid #ccc;
       border-radius: 5px;
       background-color: #f1f9ff;
+      text-align: center;
+      display: inline-block;
     }
     .figure-blocks-container {
       display: flex;
@@ -92,7 +95,7 @@
       box-sizing: border-box;
     }
     .figure-block input {
-      width: 100%;
+      width: auto; /* Ширина по розміру значення */
       padding: 8px;
       margin-right: 5px;
       font-size: 14px;
