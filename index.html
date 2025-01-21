@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Розрахунок вартості фігурки</title>
+  <title>Розрахунок вартості спільного замовлення</title>
   <link rel="icon" href="logo.png" type="image/png">
   <style>
     body {
@@ -158,21 +158,21 @@
   <div class="container">
     <div class="header">
       <img src="logo2.png" alt="Логотип" class="logo">
-      <h2>Розрахунок вартості фігурки</h2>
+      <h2>Розрахунок вартості спільного замовлення</h2>
     </div>
     <div class="exchange-rate-container">
       <label for="exchange-rate">Актуальний курс (mono):</label>
       <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
     </div>
     <div class="price-container">
-      <label for="price">Ціна на сайті:</label>
+      <label for="price">Ціна на сайті ($):</label>
     </div>
     <div class="figure-blocks-container" id="figures-container"></div>
     <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
     <div class="aggregated-data">
-      <p>Податок (7%): <span id="tax-sum">0</span> грн</p>
-      <p>Страховка (0.5%): <span id="insurance-sum">0</span> грн</p>
-      <p>Сума без комісії: <span id="subtotal-sum">0</span> грн</p>
+      <p>Податок штату США (7%): <span id="tax-sum">0</span> грн</p>
+      <p>Страховка сервісу доставки(0.5%): <span id="insurance-sum">0</span> грн</p>
+      <p>Сума без комісії спільноти: <span id="subtotal-sum">0</span> грн</p>
     </div>
     <div class="note">
       <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну. 
