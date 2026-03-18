@@ -129,9 +129,37 @@
       font-size: 14px;
       background-color: #f1f9ff;
       border: 1px solid #d6e9ff;
-      padding: 10px;
+      padding: 15px;
       border-radius: 8px;
       margin-top: 20px;
+    }
+    .note-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .note-description {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .delivery-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+    .delivery-table th,
+    .delivery-table td {
+      border: 1px solid #d6e9ff;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .delivery-table th {
+      background-color: #e6f2ff;
+      font-weight: bold;
+    }
+    .delivery-table tr:nth-child(even) {
+      background-color: #f8fbff;
     }
     .footer {
       margin-top: 20px;
@@ -155,44 +183,79 @@
       <img src="logo2.png" alt="Логотип" class="logo">
       <h2>Розрахунок вартості спільного замовлення</h2>
     </div>
+
     <div class="exchange-rate-container">
       <label for="exchange-rate">Актуальний курс (mono):</label>
       <input type="number" id="exchange-rate" placeholder="Курс завантажується..." disabled>
     </div>
+
     <div class="price-container">
       <label for="price">Ціна на сайті ($):</label>
     </div>
+
     <div class="figure-blocks-container" id="figures-container"></div>
+
     <p class="total-sum">Загальна сума для всіх фігурок: <span id="total-sum">0</span> грн</p>
+
     <div class="aggregated-data">
       <p>Податок штату США (7%): <span id="tax-sum">0</span> грн</p>
       <p>Страховка сервісу доставки (0.5%): <span id="insurance-sum">0</span> грн</p>
-      <p>Сума без комісії спільноти (40 грн/фігурка): <span id="subtotal-sum">0</span> грн</p>
+      <p>Сума без комісії спільноти (40 грн/фігурка): <span id="subtotal-sум">0</span> грн</p>
     </div>
-      <div class="note">
-      <strong>Примітка:</strong> Загальна сума вказана без врахування доставки з США в Україну.  
-      <br><br>
-      Орієнтовна вартість доставки за категоріями:
-      <br>
-      Standart 4 inch ~ 120 грн
-      <br>
-      Super (6 inch/Deluxe/Mini Rides) ~ 200-250 грн
-      <br>
-      Moment/Big Rides ~ 300-400 грн
-      <br>
-      NOOKS ~ 200 грн
-      <br>
-      Jumbo (10 inch) ~ 500-600 грн
-      <br>
-      Cover/Poster ~ 250-350 грн
+
+    <div class="note">
+      <div class="note-title">Примітка щодо доставки</div>
+      <div class="note-description">
+        Загальна сума вказана без врахування доставки з США в Україну.<br>
+        Нижче наведена орієнтовна вартість доставки за типами фігурок:
+      </div>
+      <table class="delivery-table">
+        <thead>
+          <tr>
+            <th>Тип</th>
+            <th>Орієнтовна доставка</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standart 4 inch</td>
+            <td>~ 120 грн</td>
+          </tr>
+          <tr>
+            <td>Super (6 inch/Deluxe/Mini Rides)</td>
+            <td>~ 200–250 грн</td>
+          </tr>
+          <tr>
+            <td>Moment/Big Rides</td>
+            <td>~ 300–400 грн</td>
+          </tr>
+          <tr>
+            <td>NOOKS</td>
+            <td>~ 200 грн</td>
+          </tr>
+          <tr>
+            <td>Jumbo (10 inch)</td>
+            <td>~ 500–600 грн</td>
+          </tr>
+          <tr>
+            <td>Cover/Poster</td>
+            <td>~ 250–350 грн</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      &copy; 2025 <a href="https://t.me/funkocommunity" target="_blank">Funko Community</a>
     </div>
   </div>
+
   <script>
     const figuresContainer = document.getElementById("figures-container");
     const totalSumElement = document.getElementById("total-sum");
     const taxSumElement = document.getElementById("tax-sum");
     const insuranceSumElement = document.getElementById("insurance-sum");
-    const subtotalSumElement = document.getElementById("subtotal-sum");
+    const subtotalSumElement = document.getElementById("subtotal-sум");
     const exchangeRateInput = document.getElementById("exchange-rate");
 
     async function fetchExchangeRate() {
@@ -267,5 +330,3 @@
   </script>
 </body>
 </html>
-
-
