@@ -97,22 +97,22 @@
     .rate-wrap span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 14px; pointer-events: none; }
 
     /* Список фігурок */
-    #figures { display: grid; gap: 8px; }
-    .row { display: flex; gap: 8px; align-items: center; animation: rowIn .18s ease-out; }
+    #figures { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px; }
+    .row { position: relative; animation: rowIn .18s ease-out; }
     @keyframes rowIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-    .row .price-wrap { position: relative; flex: 1; }
-    .row .price-wrap input { padding-left: 30px; }
-    .row .price-wrap span { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .row input { height: 42px; padding-left: 28px; padding-right: 34px; }
+    .row .sign { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
 
     button { font: inherit; cursor: pointer; }
     .remove {
-      flex: none; width: 46px; height: 46px;
-      border: 0; border-radius: 12px;
+      position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+      width: 30px; height: 30px;
+      border: 0; border-radius: 8px;
       background: transparent; color: var(--muted);
-      font-size: 20px; line-height: 1;
+      font-size: 18px; line-height: 1;
       transition: background-color .15s, color .15s;
     }
-    .remove:hover { background: var(--field); color: var(--danger); }
+    .remove:hover { background: var(--line); color: var(--danger); }
     .remove:focus-visible, .add:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     .add {
@@ -246,10 +246,8 @@
       const row = document.createElement("div");
       row.className = "row";
       row.innerHTML = `
-        <div class="price-wrap">
-          <span>$</span>
-          <input type="number" class="figure-price" inputmode="decimal" min="0" step="any" placeholder="Ціна" aria-label="Ціна фігурки в доларах">
-        </div>
+        <span class="sign">$</span>
+        <input type="number" class="figure-price" inputmode="decimal" min="0" step="any" placeholder="Ціна" aria-label="Ціна фігурки в доларах">
         <button type="button" class="remove" aria-label="Видалити фігурку">&times;</button>
       `;
 
